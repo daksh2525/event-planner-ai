@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Recommended Vendors</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <h2>📋 Planning Steps</h2>
+        {% if steps %}
+        <ul>
+            {% for step in steps %}
+            <li>{{ loop.index }}. {{ step }}</li>
+            {% endfor %}
+        </ul>
+        {% endif %}
+
+        <h2>✅ Recommended Vendors</h2>
+
+        {% if vendors %}
+        <ul class="vendor-list">
+          {% for vendor in vendors %}
+            <li>
+              <strong>{{ vendor.type }}</strong><br>
+              {{ vendor.name }}<br>
+              ₹{{ vendor.price }} | ⭐ {{ vendor.rating }}
+
+              <!-- 🆕 Bargain Form -->
+              <form action="/bargain" method="POST" style="margin-top: 10px;">
+                <input type="hidden" name="vendor_name" value="{{ vendor.name }}">
+                <label>Your Offer (₹):</label>
+                <input type="number" name="your_offer" placeholder="e.g. 50000" required>
+                <button type="submit">Request Bargain</button>
+              </form>
+            </li>
+          {% endfor %}
+        </ul>
+        {% else %}
+          <p>No vendors found for your location and budget.</p>
+        {% endif %}
+
+        <a href="/">← Back to Home</a>
+    </div>
+</body>
+</html>
